@@ -5,6 +5,7 @@ import 'package:food_recipe/screens/home/home_screen.dart';
 import 'package:food_recipe/screens/search_result/search_result_screen.dart';
 import 'package:food_recipe/config/custom_color.dart';
 import 'package:food_recipe/screens/world/world_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationWidget extends StatefulWidget {
   const NavigationWidget({super.key});
@@ -69,7 +70,7 @@ class _NavigationWidgetState extends State<NavigationWidget> {
                   hintStyle: TextStyle(
                       color: CustomColor.customred[500],
                       fontFamily: "Lilita One"),
-                  hintText: "Cari Resep...",
+                  hintText: "${AppLocalizations.of(context)?.searchRecipe}...",
                   fillColor: Colors.white70),
             ),
           ),

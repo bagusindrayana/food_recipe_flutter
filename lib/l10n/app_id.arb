@@ -1,0 +1,13 @@
+{
+    "ingredients": "Bahan-Bahan",
+    "title": "Resep Makanan",
+    "chicken": "Ayam",
+    "vegetable": "Sayuran",
+    "meat": "Daging",
+    "soup": "Sup",
+    "fruit": "Buah",
+    "drink": "Minuman",
+    "searchRecipe": "Cari Resep",
+    "steps":"Langkah-Langkah",
+    "seeSteps":"Lihat Langkah-Langkah"
+}

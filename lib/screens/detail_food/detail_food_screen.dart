@@ -11,6 +11,7 @@ import 'package:food_recipe/models/food_list.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DetailFoodScreen extends StatefulWidget {
   final FoodList foodList;
@@ -33,7 +34,8 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
 
   Future<void> openWebSource() async {
     final Uri _url = Uri.parse(widget.foodList.sourceUrl);
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_url,
+        mode: LaunchMode.externalNonBrowserApplication)) {
       throw Exception('Could not launch $_url');
     }
   }
@@ -91,7 +93,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
               padding: const EdgeInsets.only(
                   left: 20, top: 20, bottom: 0, right: 20),
               child: Text(
-                "Bahan-Bahan",
+                "${AppLocalizations.of(context)?.title}",
                 style: TextStyle(
                   fontSize: 24,
                   fontFamily: 'Lilita One',
@@ -186,7 +188,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
               padding: const EdgeInsets.only(
                   left: 20, top: 20, bottom: 0, right: 20),
               child: Text(
-                "Langkah-Langkah",
+                "${AppLocalizations.of(context)?.steps}",
                 style: TextStyle(
                   fontSize: 24,
                   fontFamily: 'Lilita One',
@@ -202,7 +204,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                     primary: CustomColor.customred,
                     minimumSize: const Size.fromHeight(50), // NEW
                   ),
-                  child: Text("Lihat Langkah-langkahnya",
+                  child: Text("${AppLocalizations.of(context)?.seeSteps}",
                       style: TextStyle(
                         fontSize: 18,
                         fontFamily: 'Lilita One',

@@ -29,11 +29,21 @@ class FoodListBloc extends Bloc<FoodListEvent, FoodListState> {
     }
 
     try {
+      // final List<Locale> systemLocales =
+      //     WidgetsBinding.instance.platformDispatcher.locales;
+      // print(systemLocales.first.languageCode);
+      // final query = await UtilityHelper().translate(event.query,"" "en");
+      // print(query);
+      var query = event.query;
+      // if (systemLocales.isNotEmpty) {
+      //   query = await UtilityHelper().translate(
+      //       event.query, systemLocales.first.languageCode, "en");
+      // }
       final queryParameters = {
         'app_id': ApiConfig.APP_ID,
         'app_key': ApiConfig.APP_KEY,
         'type': 'public',
-        'q': event.query
+        'q': query
       };
       Uri uri = nextPageUrl != null
           ? Uri.parse(nextPageUrl!)

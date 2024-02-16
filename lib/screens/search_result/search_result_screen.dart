@@ -8,6 +8,7 @@ import 'package:food_recipe/screens/search_result/widget/list_food_widget.dart';
 import 'package:food_recipe/config/custom_color.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchResultScreen extends StatefulWidget {
   final String query;
@@ -104,7 +105,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                 hintStyle: TextStyle(
                     color: CustomColor.customred[500],
                     fontFamily: "Lilita One"),
-                hintText: "Cari Resep...",
+                hintText: "${AppLocalizations.of(context)?.searchRecipe}...",
                 fillColor: Colors.white70),
           ),
         ),

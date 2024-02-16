@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:food_recipe/navigation_widget.dart';
 import 'package:food_recipe/config/custom_color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,10 +16,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Resep Masakan',
+      localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('id'), // Indonesian
+      ],
+      title: "${AppLocalizations.of(context)?.title}",
       theme: ThemeData(
           primarySwatch: CustomColor.customyellow,
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             iconTheme: IconThemeData(color: CustomColor.customred, size: 30),
             titleTextStyle: TextStyle(
                 color: CustomColor.customred,

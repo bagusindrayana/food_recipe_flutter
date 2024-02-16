@@ -1,11 +1,12 @@
 import 'dart:ui';
 
-import 'package:bordered_text/bordered_text.dart';
+// import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/screens/home/widgets/list_card_widget.dart';
 import 'package:food_recipe/screens/search_result/search_result_screen.dart';
-import 'package:food_recipe/config/custom_color.dart';
-import 'package:simple_shadow/simple_shadow.dart';
+// import 'package:food_recipe/config/custom_color.dart';
+// import 'package:simple_shadow/simple_shadow.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 startSearch("chicken");
               },
-              title: "Ayam",
+              title: "${AppLocalizations.of(context)?.chicken}",
               image: Image.asset(
                 'assets/images/food_shichimenchou.png',
                 width: itemWidth / 1.25,
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 startSearch("vegetable");
               },
-              title: "Sayuran",
+              title: "${AppLocalizations.of(context)?.vegetable}",
               image: Image.asset(
                 'assets/images/vegetable.png',
                 width: itemWidth / 1.25,
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 startSearch("meat");
               },
-              title: "Daging",
+              title: "${AppLocalizations.of(context)?.meat}",
               image: Image.asset(
                 'assets/images/food_niku_buta_ro-su.png',
                 width: itemWidth / 1.25,
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 startSearch("soup");
               },
-              title: "Sup",
+              title: "${AppLocalizations.of(context)?.soup}",
               image: Image.asset(
                 'assets/images/soup_vegetable.png',
                 height: 100,
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 startSearch("fruit");
               },
-              title: "Buah",
+              title: "${AppLocalizations.of(context)?.fruit}",
               image: Image.asset(
                 'assets/images/fruits_basket.png',
                 height: 100,
@@ -89,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 startSearch("drink");
               },
-              title: "Minuman",
+              title: "${AppLocalizations.of(context)?.drink}",
               image: Image.asset(
                 'assets/images/juice_orange.png',
                 height: 100,

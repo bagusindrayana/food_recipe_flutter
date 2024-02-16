@@ -5,8 +5,10 @@ import 'package:food_recipe/bloc/food_detail/food_detail_event.dart';
 import 'package:food_recipe/bloc/food_detail/food_detail_state.dart';
 import 'package:food_recipe/config/api_config.dart';
 import 'package:food_recipe/models/food_list.dart';
+import 'package:food_recipe/utility/utility_helper.dart';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
 
 class FoodDetailBloc extends Bloc<FoodDetailEvent, FoodDetailState> {
   final http.Client httpClient;
@@ -122,37 +124,55 @@ class FoodDetailBloc extends Bloc<FoodDetailEvent, FoodDetailState> {
         }
       });
 
-      //persiapan menerjemahkan resep makanan
-      final queryParameters = {
-        'api-version': "3.0",
-        'to': 'id',
-        'textType': 'plain',
-        'profanityAction': 'NoAction'
-      };
-      Uri uri = Uri.https('microsoft-translator-text.p.rapidapi.com',
-          '/translate', queryParameters);
-      var response = await httpClient.post(uri,
-          headers: {
-            "Content-Type": "application/json",
-            "X-RapidAPI-Key": ApiConfig.RAPID_API_KEY,
-            "X-RapidAPI-Host": "microsoft-translator-text.p.rapidapi.com"
-          },
-          body: jsonEncode([
-            {"Text": listText}
-          ]));
-      if (response.statusCode == 200) {
-        var jsonData = jsonDecode(response.body);
-
-        var results = jsonData[0]['translations'][0]['text'];
-
-        emit(FoodDetailLoaded(results.split("\n")));
+      final List<Locale> systemLocales =
+          WidgetsBinding.instance.platformDispatcher.locales;
+      // print(systemLocales.first.languageCode);
+      var query = listText;
+      if (systemLocales.isNotEmpty &&
+          systemLocales.first.languageCode != "en") {
+        await UtilityHelper()
+            .translate(query, "en", systemLocales.first.languageCode)
+            .then((value) {
+          if (!value.success) {
+            print(value.message);
+          }
+          emit(FoodDetailLoaded("${value.result}".split("\n")));
+        });
       } else {
-        print(response.body);
-        emit(FoodDetailError('Gagal memuat resep makanan'));
+        emit(FoodDetailLoaded("${query}".split("\n")));
       }
+
+      //persiapan menerjemahkan resep makanan
+      //   final queryParameters = {
+      //     'api-version': "3.0",
+      //     'to': 'id',
+      //     'textType': 'plain',
+      //     'profanityAction': 'NoAction'
+      //   };
+      //   Uri uri = Uri.https('microsoft-translator-text.p.rapidapi.com',
+      //       '/translate', queryParameters);
+      //   var response = await httpClient.post(uri,
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         "X-RapidAPI-Key": ApiConfig.RAPID_API_KEY,
+      //         "X-RapidAPI-Host": "microsoft-translator-text.p.rapidapi.com"
+      //       },
+      //       body: jsonEncode([
+      //         {"Text": listText}
+      //       ]));
+      //   if (response.statusCode == 200) {
+      //     var jsonData = jsonDecode(response.body);
+
+      //     var results = jsonData[0]['translations'][0]['text'];
+
+      //     emit(FoodDetailLoaded(results.split("\n")));
+      //   } else {
+      //     print(response.body);
+      //     emit(FoodDetailError('Gagal memuat resep makanan'));
+      //   }
     } catch (e) {
       print(e);
-      emit(FoodDetailError('Gagal memuat resep makanan'));
+      emit(FoodDetailError('Failed to load data'));
     }
   }
 }

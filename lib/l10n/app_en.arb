@@ -1,0 +1,46 @@
+{
+    "ingredients": "Ingredients",
+    "@ingredients": {
+        "description": "ingredients"
+    },
+    "title": "Food Recipe",
+    "@title": {
+        "description": "Food Recipe"
+    },
+    "chicken":"Chicken",
+    "@chicken": {
+        "description": "Chicken"
+    },
+    "vegetable":"Vegetable",
+    "@vegetable": {
+        "description": "Vegetable"
+    },
+    "meat":"Meat",
+    "@meat": {
+        "description": "Meat"
+    },
+    "soup":"Soup",
+    "@soup": {
+        "description": "Soup"
+    },
+    "fruit":"Fruit",
+    "@fruit": {
+        "description": "Fruit"
+    },
+    "drink":"Drink",
+    "@drink": {
+        "description": "Drink"
+    },
+    "searchRecipe":"Search Recipe",
+    "@searchRecipe": {
+        "description": "Search Recipe"
+    },
+    "steps":"Steps",
+    "@steps": {
+        "description": "Steps"
+    },
+    "seeSteps":"See Steps",
+    "@seeSteps": {
+        "description": "See Steps"
+    }
+}
