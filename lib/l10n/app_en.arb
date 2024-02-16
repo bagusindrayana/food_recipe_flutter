@@ -42,5 +42,8 @@
     "seeSteps":"See Steps",
     "@seeSteps": {
         "description": "See Steps"
-    }
+    },
+    "tablespoon": "tablespoon",
+    "teaspoon": "teaspoon",
+    "cup": "cup"
 }

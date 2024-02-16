@@ -9,5 +9,8 @@
     "drink": "Minuman",
     "searchRecipe": "Cari Resep",
     "steps":"Langkah-Langkah",
-    "seeSteps":"Lihat Langkah-Langkah"
+    "seeSteps":"Lihat Langkah-Langkah",
+    "tablespoon":"Sendok Makan",
+    "teaspoon":"Sendok Teh",
+    "cup": "Gelas"
 }

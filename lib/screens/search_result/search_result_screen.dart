@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_recipe/bloc/food_list/food_list_bloc.dart';
@@ -9,6 +11,8 @@ import 'package:food_recipe/config/custom_color.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'dart:developer' as dev;
 
 class SearchResultScreen extends StatefulWidget {
   final String query;
@@ -182,9 +186,12 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                         itemCount: datas.length,
                         itemBuilder: (context, index) {
                           final item = datas[index];
+
                           return ListFoodWidget(
                               foodList: item,
                               onTap: () {
+                                var json = item.toJson();
+                                dev.log(jsonEncode(json));
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

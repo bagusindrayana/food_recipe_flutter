@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_recipe/bloc/food_detail/food_detail_event.dart';
 import 'package:food_recipe/bloc/food_detail/food_detail_state.dart';
@@ -21,15 +21,18 @@ class FoodDetailBloc extends Bloc<FoodDetailEvent, FoodDetailState> {
 
   //konversi imperial ke metrik
   String convertImperialToMetric(String unit, double amount) {
-    if (unit == "tsp" || unit == "teaspoon") {
-      return removeTrailingZeros(amount.toStringAsFixed(2)) + " sendok teh";
-    } else if (unit == "tbsp" || unit == "tablespoon") {
-      return removeTrailingZeros(amount.toStringAsFixed(2)) + " sendok makan";
-    } else if (unit == "fl oz") {
+    // if (unit == "tsp" || unit == "teaspoon") {
+    //   return removeTrailingZeros(amount.toStringAsFixed(2)) + " sendok teh";
+    // } else if (unit == "tbsp" || unit == "tablespoon") {
+    //   return removeTrailingZeros(amount.toStringAsFixed(2)) + " sendok makan";
+    // } else
+    if (unit == "fl oz") {
       return (amount * 29.5735).toStringAsFixed(2) + " ml";
-    } else if (unit == "cup") {
-      return removeTrailingZeros(amount.toStringAsFixed(2)) + " gelas/cangkir";
-    } else if (unit == "pint") {
+    }
+    // else if (unit == "cup") {
+    //   return removeTrailingZeros(amount.toStringAsFixed(2)) + " gelas/cangkir";
+    // }
+    else if (unit == "pint") {
       return (amount * 473.176).toStringAsFixed(2) + " ml";
     } else if (unit == "quart") {
       return (amount * 946.353).toStringAsFixed(2) + " ml";
@@ -171,7 +174,9 @@ class FoodDetailBloc extends Bloc<FoodDetailEvent, FoodDetailState> {
       //     emit(FoodDetailError('Gagal memuat resep makanan'));
       //   }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       emit(FoodDetailError('Failed to load data'));
     }
   }

@@ -11,4 +11,14 @@ class Ingredient extends Equatable {
 
   @override
   List<Object?> get props => [text, quantity, measure, image];
+
+  //to json
+  Map<String, dynamic> toJson() {
+    return {
+      'text': text,
+      'quantity': quantity,
+      'measure': measure,
+      'image': image,
+    };
+  }
 }

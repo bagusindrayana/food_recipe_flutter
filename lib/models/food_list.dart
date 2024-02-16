@@ -22,4 +22,17 @@ class FoodList extends Equatable {
   @override
   List<Object?> get props =>
       [title, source, sourceUrl, img, link, thumb, ingredients];
+
+  //to json
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'source': source,
+      'sourceUrl': sourceUrl,
+      'img': img,
+      'link': link,
+      'thumb': thumb,
+      'ingredients': ingredients.map((e) => e.toJson()).toList(),
+    };
+  }
 }
