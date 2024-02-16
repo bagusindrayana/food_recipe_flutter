@@ -45,5 +45,6 @@
     },
     "tablespoon": "tablespoon",
     "teaspoon": "teaspoon",
-    "cup": "cup"
+    "cup": "cup",
+    "nutritionalInformation": "Nutritional Information"
 }

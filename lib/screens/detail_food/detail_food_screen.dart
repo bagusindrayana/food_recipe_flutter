@@ -8,6 +8,7 @@ import 'package:food_recipe/bloc/food_detail/food_detail_event.dart';
 import 'package:food_recipe/bloc/food_detail/food_detail_state.dart';
 import 'package:food_recipe/config/custom_color.dart';
 import 'package:food_recipe/models/food_list.dart';
+import 'package:food_recipe/models/nutrition.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -82,19 +83,75 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                       ),
                     ),
                   ),
-                  errorWidget: (context, url, error) => Center(
+                  errorWidget: (context, url, error) => const Center(
                     child: Icon(Icons.error),
                   ),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 16,
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+                color: Color.fromRGBO(255, 217, 102, 1),
+              ),
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //heading text with underline
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          "${widget.foodList.title}",
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'Lilita One',
+                              color: CustomColor.customred,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                      //bullet list
+                      Text(
+                        '• Calories : ${widget.foodList.calories.toStringAsFixed(2)} Kcal',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Lilita One',
+                        ),
+                      ),
+                      Text(
+                        '• Meal Type : ${widget.foodList.mealType.join(", ")}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Lilita One',
+                        ),
+                      ),
+                      Text(
+                        '• Diet : ${widget.foodList.dietLabels.join(", ")}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Lilita One',
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(
                   left: 20, top: 20, bottom: 0, right: 20),
               child: Text(
-                "${AppLocalizations.of(context)?.title}",
-                style: TextStyle(
+                "${AppLocalizations.of(context)?.ingredients}",
+                style: const TextStyle(
                   fontSize: 24,
                   fontFamily: 'Lilita One',
                   color: CustomColor.customred,
@@ -106,19 +163,19 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                     bloc: _foodDetailBloc,
                     builder: (context, state) {
                       if (state is FoodDetailLoading) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       } else if (state is FoodDetailLoaded) {
                         return ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: min(state.ingredientTexts.length,
                               widget.foodList.ingredients.length),
                           itemBuilder: (context, index) {
                             final item = state.ingredientTexts[index];
                             return Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
                                   topRight: Radius.circular(10),
@@ -130,37 +187,38 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                               // padding: const EdgeInsets.all(8),
                               margin: const EdgeInsets.all(8),
                               child: ListTile(
-                                leading:
-                                    (widget.foodList.ingredients[index].image !=
-                                            null)
-                                        ? CachedNetworkImage(
-                                            imageUrl: widget.foodList
-                                                .ingredients[index].image!,
-                                            imageBuilder:
-                                                (context, imageProvider) =>
-                                                    Container(
-                                              height: 45,
-                                              width: 45,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
+                                leading: (widget.foodList.ingredients[index]
+                                            .image !=
+                                        null)
+                                    ? CachedNetworkImage(
+                                        imageUrl: widget
+                                            .foodList.ingredients[index].image!,
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                                     Radius.circular(67.5)),
-                                                image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
                                             ),
-                                            placeholder: (context, url) =>
-                                                CircularProgressIndicator(),
-                                            errorWidget:
-                                                (context, url, error) => Center(
-                                              child: Icon(Icons.error),
-                                            ),
-                                          )
-                                        : Icon(Icons.circle),
+                                          ),
+                                        ),
+                                        placeholder: (context, url) =>
+                                            const CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            const Center(
+                                          child: Icon(Icons.error),
+                                        ),
+                                      )
+                                    : const Icon(Icons.circle),
                                 title: Text(
                                   item,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'Lilita One',
                                     color: CustomColor.customred,
@@ -175,13 +233,13 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                           child: Text(state.message),
                         );
                       } else {
-                        return Center(
+                        return const Center(
                           child: Text("Ops resep tidak ditemukan"),
                         );
                       }
                     },
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(),
                   ),
             Padding(
@@ -189,7 +247,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                   left: 20, top: 20, bottom: 0, right: 20),
               child: Text(
                 "${AppLocalizations.of(context)?.steps}",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontFamily: 'Lilita One',
                   color: CustomColor.customred,
@@ -204,14 +262,116 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                     primary: CustomColor.customred,
                     minimumSize: const Size.fromHeight(50), // NEW
                   ),
+                  onPressed: openWebSource,
                   child: Text("${AppLocalizations.of(context)?.seeSteps}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontFamily: 'Lilita One',
                         color: CustomColor.customyellow,
-                      )),
-                  onPressed: openWebSource),
+                      ))),
             ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 20, top: 20, bottom: 0, right: 20),
+              child: Text(
+                "${AppLocalizations.of(context)?.nutritionalInformation}",
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontFamily: 'Lilita One',
+                  color: CustomColor.customred,
+                ),
+              ),
+            ),
+            Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Color.fromRGBO(255, 217, 102, 1),
+                ),
+                margin: const EdgeInsets.all(20),
+                //generate table from widget.foodList.totalNutrients
+                child: Table(
+                  columnWidths: {
+                    0: FlexColumnWidth(2),
+                    1: FlexColumnWidth(1),
+                    2: FlexColumnWidth(1),
+                  },
+                  border: TableBorder.all(
+                      color: CustomColor.customred,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  children: [
+                    TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Nutrition",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Lilita One',
+                            color: CustomColor.customred,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Qty",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Lilita One',
+                            color: CustomColor.customred,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Unit",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Lilita One',
+                            color: CustomColor.customred,
+                          ),
+                        ),
+                      ),
+                    ]),
+                    for (var nutrient in widget.foodList.totalNutrients)
+                      TableRow(children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "${nutrient.label}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'Lilita One',
+                              color: CustomColor.customred,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "${nutrient.quantity?.toStringAsFixed(2)}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'Lilita One',
+                              color: CustomColor.customred,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "${nutrient.unit}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'Lilita One',
+                              color: CustomColor.customred,
+                            ),
+                          ),
+                        ),
+                      ]),
+                  ],
+                ))
           ],
         ),
       ),

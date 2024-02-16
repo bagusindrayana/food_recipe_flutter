@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_recipe/bloc/food_list/food_list_bloc.dart';
 import 'package:food_recipe/bloc/food_list/food_list_event.dart';
 import 'package:food_recipe/bloc/food_list/food_list_state.dart';
+import 'package:food_recipe/models/food_list.dart';
 import 'package:food_recipe/screens/detail_food/detail_food_screen.dart';
 import 'package:food_recipe/screens/search_result/widget/list_food_widget.dart';
 import 'package:food_recipe/config/custom_color.dart';
@@ -185,13 +186,12 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: datas.length,
                         itemBuilder: (context, index) {
-                          final item = datas[index];
+                          FoodList item = datas[index];
 
                           return ListFoodWidget(
                               foodList: item,
                               onTap: () {
-                                var json = item.toJson();
-                                dev.log(jsonEncode(json));
+                                print(item.link);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -202,10 +202,10 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                         },
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 50,
                       child: (state is FoodListLoadingMore)
-                          ? Center(
+                          ? const Center(
                               child: CircularProgressIndicator(),
                             )
                           : SizedBox(),

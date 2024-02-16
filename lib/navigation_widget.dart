@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:food_recipe/screens/diary/diary_screen.dart';
 import 'package:food_recipe/screens/favorite/favorite_screen.dart';
 import 'package:food_recipe/screens/home/home_screen.dart';
 import 'package:food_recipe/screens/search_result/search_result_screen.dart';
 import 'package:food_recipe/config/custom_color.dart';
-import 'package:food_recipe/screens/world/world_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationWidget extends StatefulWidget {
@@ -16,7 +16,7 @@ class NavigationWidget extends StatefulWidget {
 
 class _NavigationWidgetState extends State<NavigationWidget> {
   List<Widget> screens = [
-    WorldScreen(),
+    DiaryScreen(),
     HomeScreen(),
     FavoriteScreen(),
   ];
@@ -99,7 +99,8 @@ class _NavigationWidgetState extends State<NavigationWidget> {
           currentIndex: selectedIndex,
           onTap: (index) => setState(() => selectedIndex = index),
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.flag), label: 'world'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.restaurant), label: 'diary'),
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite), label: 'favorit'),

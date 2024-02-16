@@ -12,6 +12,16 @@ class Ingredient extends Equatable {
   @override
   List<Object?> get props => [text, quantity, measure, image];
 
+  //from json
+  factory Ingredient.fromJson(Map<String, dynamic> json) {
+    return Ingredient(
+      text: json['text'],
+      quantity: json['quantity'],
+      measure: json['measure'],
+      image: json['image'],
+    );
+  }
+
   //to json
   Map<String, dynamic> toJson() {
     return {
