@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:food_recipe/config/api_config.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,18 +36,18 @@ class UtilityHelper {
           ]));
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(response.body);
-        print(jsonData);
         var results = jsonData[0]['translations'][0]['text'];
 
-        return new TranslateResult(success: true, result: results);
+        return TranslateResult(success: true, result: results);
       } else {
-        print(response.body);
-        return new TranslateResult(
+        return TranslateResult(
             success: false, message: 'Failed to translate', result: word);
       }
     } catch (e, t) {
-      print(e);
-      print(t);
+      if (kDebugMode) {
+        print(e);
+        print(t);
+      }
       return new TranslateResult(
           success: false, message: e.toString(), result: word);
     }

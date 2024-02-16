@@ -48,6 +48,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  dart_define: ^2.1.1
 
 dev_dependencies:
   flutter_test:

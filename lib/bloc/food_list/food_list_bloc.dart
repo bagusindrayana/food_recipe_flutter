@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_recipe/bloc/food_list/food_list_event.dart';
 import 'package:food_recipe/bloc/food_list/food_list_state.dart';
@@ -7,6 +8,7 @@ import 'package:food_recipe/config/api_config.dart';
 import 'package:food_recipe/models/food_list.dart';
 import 'package:food_recipe/models/ingredient.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io' show Platform;
 
 class FoodListBloc extends Bloc<FoodListEvent, FoodListState> {
   final http.Client httpClient;
@@ -39,12 +41,16 @@ class FoodListBloc extends Bloc<FoodListEvent, FoodListState> {
       //   query = await UtilityHelper().translate(
       //       event.query, systemLocales.first.languageCode, "en");
       // }
+
       final queryParameters = {
         'app_id': ApiConfig.APP_ID,
         'app_key': ApiConfig.APP_KEY,
         'type': 'public',
         'q': query
       };
+      if (kDebugMode) {
+        print(queryParameters);
+      }
       Uri uri = nextPageUrl != null
           ? Uri.parse(nextPageUrl!)
           : Uri.https('api.edamam.com', '/api/recipes/v2', queryParameters);
@@ -79,7 +85,9 @@ class FoodListBloc extends Bloc<FoodListEvent, FoodListState> {
         //yield FoodListError('Failed to fetch FoodLists');
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       emit(FoodListError('Failed to fetch FoodLists'));
       //yield FoodListError('Failed to fetch FoodLists');
     }
