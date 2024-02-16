@@ -87,24 +87,24 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
             },
             decoration: InputDecoration(
                 isDense: true,
-                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide:
-                      BorderSide(width: 3, color: CustomColor.customred),
+                      const BorderSide(width: 3, color: CustomColor.customred),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide:
-                      BorderSide(width: 3, color: CustomColor.customred),
+                      const BorderSide(width: 3, color: CustomColor.customred),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide:
-                      BorderSide(width: 3, color: CustomColor.customred),
+                      const BorderSide(width: 3, color: CustomColor.customred),
                 ),
                 filled: true,
                 hintStyle: TextStyle(
@@ -116,9 +116,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
                 color: CustomColor.customred,
                 size: 40,
@@ -130,112 +130,106 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
           )
         ],
       ),
-      body: Container(
-        //listview builder
-        child: BlocBuilder<FoodListBloc, FoodListState>(
-          bloc: _foodListBloc,
-          builder: (context, state) {
-            if (state is FoodListLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is FoodListLoaded ||
-                state is FoodListLoadingMore) {
-              _isLoadingMore = false;
-              if (state is FoodListLoaded) {
-                datas.addAll(state.foodLists);
-              }
-              if (datas.length == 0) {
-                return SmartRefresher(
-                    controller: _refreshController,
-                    onRefresh: () {
-                      getData();
-                      _refreshController.refreshCompleted();
-                    },
-                    child: Center(
-                      child: Text("Ops resep tidak ditemukan"),
-                    ));
-              }
-              var size = MediaQuery.of(context).size;
-
-              /*24 is for notification bar on Android*/
-              final double itemHeight =
-                  (size.height - (kToolbarHeight * 2)) / 2;
-              final double itemWidth = size.width / 2;
-
+      body: BlocBuilder<FoodListBloc, FoodListState>(
+        bloc: _foodListBloc,
+        builder: (context, state) {
+          if (state is FoodListLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is FoodListLoaded || state is FoodListLoadingMore) {
+            _isLoadingMore = false;
+            if (state is FoodListLoaded) {
+              datas.addAll(state.foodLists);
+            }
+            if (datas.isEmpty) {
               return SmartRefresher(
+                  controller: _refreshController,
+                  onRefresh: () {
+                    getData();
+                    _refreshController.refreshCompleted();
+                  },
+                  child: const Center(
+                    child: Text("Ops resep tidak ditemukan"),
+                  ));
+            }
+            var size = MediaQuery.of(context).size;
+
+            /*24 is for notification bar on Android*/
+            final double itemHeight = (size.height - (kToolbarHeight * 2)) / 2;
+            final double itemWidth = size.width / 2;
+
+            return SmartRefresher(
+              controller: _refreshController,
+              onRefresh: () {
+                getData();
+                _refreshController.refreshCompleted();
+              },
+              child: ListView(
+                physics: const ScrollPhysics(),
+                controller: _scrollController,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: (itemWidth / itemHeight),
+                      ),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: datas.length,
+                      itemBuilder: (context, index) {
+                        FoodList item = datas[index];
+
+                        return ListFoodWidget(
+                            foodList: item,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailFoodScreen(
+                                            foodList: item,
+                                          )));
+                            });
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: (state is FoodListLoadingMore)
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : const SizedBox(),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is FoodListError) {
+            return SmartRefresher(
                 controller: _refreshController,
                 onRefresh: () {
                   getData();
                   _refreshController.refreshCompleted();
                 },
-                child: ListView(
-                  physics: ScrollPhysics(),
-                  controller: _scrollController,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 20,
-                          childAspectRatio: (itemWidth / itemHeight),
-                        ),
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: datas.length,
-                        itemBuilder: (context, index) {
-                          FoodList item = datas[index];
-
-                          return ListFoodWidget(
-                              foodList: item,
-                              onTap: () {
-                                print(item.link);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DetailFoodScreen(
-                                              foodList: item,
-                                            )));
-                              });
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                      child: (state is FoodListLoadingMore)
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : SizedBox(),
-                    ),
-                  ],
-                ),
-              );
-            } else if (state is FoodListError) {
-              return SmartRefresher(
-                  controller: _refreshController,
-                  onRefresh: () {
-                    getData();
-                    _refreshController.refreshCompleted();
-                  },
-                  child: Center(
-                    child: Text(state.message),
-                  ));
-            } else {
-              return SmartRefresher(
-                  controller: _refreshController,
-                  onRefresh: () {
-                    getData();
-                    _refreshController.refreshCompleted();
-                  },
-                  child: Center(
-                    child: Text("Ops resep tidak ditemukan"),
-                  ));
-            }
-          },
-        ),
+                child: Center(
+                  child: Text(state.message),
+                ));
+          } else {
+            return SmartRefresher(
+                controller: _refreshController,
+                onRefresh: () {
+                  getData();
+                  _refreshController.refreshCompleted();
+                },
+                child: const Center(
+                  child: Text("Ops resep tidak ditemukan"),
+                ));
+          }
+        },
       ),
     );
   }

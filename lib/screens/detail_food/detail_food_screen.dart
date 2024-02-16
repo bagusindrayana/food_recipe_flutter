@@ -7,8 +7,10 @@ import 'package:food_recipe/bloc/food_detail/food_detail_bloc.dart';
 import 'package:food_recipe/bloc/food_detail/food_detail_event.dart';
 import 'package:food_recipe/bloc/food_detail/food_detail_state.dart';
 import 'package:food_recipe/config/custom_color.dart';
+import 'package:food_recipe/models/food_diary.dart';
 import 'package:food_recipe/models/food_list.dart';
 import 'package:food_recipe/models/nutrition.dart';
+import 'package:food_recipe/repositories/food_diary_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,6 +28,19 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
   FoodDetailBloc? _foodDetailBloc;
   final RefreshController _refreshController = RefreshController();
   final ScrollController _scrollController = ScrollController();
+  FoodDiaryRepository foodDiaryRepository = FoodDiaryRepository();
+
+  void eatFood() async {
+    FoodDiary foodDiary = FoodDiary(
+      url: widget.foodList.sourceUrl,
+      label: widget.foodList.title,
+      quantity: 1,
+      calories: widget.foodList.calories,
+      dateTime: DateTime.now(),
+    );
+    await foodDiaryRepository.create(foodDiary);
+    Navigator.pop(context);
+  }
 
   void translateDetail() async {
     _foodDetailBloc =
@@ -53,6 +68,11 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.foodList.title),
+        actions: [
+          IconButton(
+              onPressed: eatFood,
+              icon: const Icon(Icons.add_circle_outline_rounded))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -102,46 +122,42 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
               ),
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.all(8),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //heading text with underline
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          "${widget.foodList.title}",
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontFamily: 'Lilita One',
-                              color: CustomColor.customred,
-                              decoration: TextDecoration.underline),
-                        ),
-                      ),
-                      //bullet list
-                      Text(
-                        '• Calories : ${widget.foodList.calories.toStringAsFixed(2)} Kcal',
-                        style: TextStyle(
-                          fontSize: 16,
+                  //heading text with underline
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      "${widget.foodList.title}",
+                      style: const TextStyle(
+                          fontSize: 24,
                           fontFamily: 'Lilita One',
-                        ),
-                      ),
-                      Text(
-                        '• Meal Type : ${widget.foodList.mealType.join(", ")}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Lilita One',
-                        ),
-                      ),
-                      Text(
-                        '• Diet : ${widget.foodList.dietLabels.join(", ")}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Lilita One',
-                        ),
-                      )
-                    ],
+                          color: CustomColor.customred,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                  //bullet list
+                  Text(
+                    '• Calories : ${widget.foodList.calories.toStringAsFixed(2)} Kcal',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Lilita One',
+                    ),
+                  ),
+                  Text(
+                    '• Meal Type : ${widget.foodList.mealType.join(", ")}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Lilita One',
+                    ),
+                  ),
+                  Text(
+                    '• Diet : ${widget.foodList.dietLabels.join(", ")}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Lilita One',
+                    ),
                   )
                 ],
               ),

@@ -47,7 +47,7 @@ class FoodDiary extends Equatable {
       'label': label,
       'quantity': quantity,
       'calories': calories,
-      'dateTime': dateTime,
+      'dateTime': dateTime.toString(),
     };
   }
 
