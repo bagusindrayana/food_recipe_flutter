@@ -28,8 +28,10 @@ class MyApp extends StatelessWidget {
       ],
       title: "${AppLocalizations.of(context)?.title}",
       theme: ThemeData(
+          fontFamily: 'Lilita One',
           primarySwatch: CustomColor.customyellow,
           appBarTheme: const AppBarTheme(
+            backgroundColor: CustomColor.customyellow,
             iconTheme: IconThemeData(color: CustomColor.customred, size: 30),
             titleTextStyle: TextStyle(
                 color: CustomColor.customred,

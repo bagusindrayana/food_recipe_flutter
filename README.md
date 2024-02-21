@@ -1,16 +1,5 @@
-# Food Recipe APP
+# Food Recipe & Calories APP
 search food around world and get ingredients and recipe
-
-## Library Used
-- flutter_snake_navigationbar
-- bordered_text
-- simple_shadow
-- http
-- cached_network_image
-- equatable
-- flutter_bloc
-- pull_to_refresh
-- url_launcher
 
 ## Installation
 - copy `env.example.json`and rename to `env.json`

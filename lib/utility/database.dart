@@ -9,6 +9,7 @@ class FoodDiaryFields {
   static final String quantity = 'quantity';
   static final String calories = 'calories';
   static final String dateTime = 'dateTime';
+  static final String mealType = 'mealType';
 
   static final List<String> values = [
     id,
@@ -17,6 +18,7 @@ class FoodDiaryFields {
     quantity,
     calories,
     dateTime,
+    mealType
   ];
 }
 
@@ -51,7 +53,17 @@ class MyDB {
       ${FoodDiaryFields.label} $textType,
       ${FoodDiaryFields.quantity} $realType,
       ${FoodDiaryFields.calories} $realType,
+      ${FoodDiaryFields.dateTime} $textType,
+      ${FoodDiaryFields.mealType} TEXT NULL
+      )''');
+
+    await db.execute('''CREATE TABLE food_favorite ( 
+      ${FoodDiaryFields.id} $idType, 
+      ${FoodDiaryFields.url} $textType,
+      ${FoodDiaryFields.label} $textType,
+      ${FoodDiaryFields.mealType} TEXT NULL,
       ${FoodDiaryFields.dateTime} $textType
+      
       )''');
   }
 }

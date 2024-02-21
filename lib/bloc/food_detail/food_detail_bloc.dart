@@ -21,12 +21,11 @@ class FoodDetailBloc extends Bloc<FoodDetailEvent, FoodDetailState> {
 
   //konversi imperial ke metrik
   String convertImperialToMetric(String unit, double amount) {
-    // if (unit == "tsp" || unit == "teaspoon") {
-    //   return removeTrailingZeros(amount.toStringAsFixed(2)) + " sendok teh";
-    // } else if (unit == "tbsp" || unit == "tablespoon") {
-    //   return removeTrailingZeros(amount.toStringAsFixed(2)) + " sendok makan";
-    // } else
-    if (unit == "fl oz") {
+    if (unit == "tsp" || unit == "teaspoon") {
+      return removeTrailingZeros(amount.toStringAsFixed(2)) + " teaspoon";
+    } else if (unit == "tbsp" || unit == "tablespoon") {
+      return removeTrailingZeros(amount.toStringAsFixed(2)) + " tablespoon";
+    } else if (unit == "fl oz") {
       return (amount * 29.5735).toStringAsFixed(2) + " ml";
     }
     // else if (unit == "cup") {

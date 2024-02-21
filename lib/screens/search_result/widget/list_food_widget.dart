@@ -32,6 +32,14 @@ class _ListFoodWidgetState extends State<ListFoodWidget> {
             bottomRight: Radius.circular(20),
           ),
           color: Color.fromRGBO(255, 217, 102, 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 0,
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            ),
+          ],
         ),
         padding: const EdgeInsets.all(16),
         child: Stack(

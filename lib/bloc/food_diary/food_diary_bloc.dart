@@ -26,22 +26,20 @@ class FoodDiaryBloc extends Bloc<FoodDiaryEvent, FoodDiaryState> {
     }
     if (event is LoadMoreFoodDiaries) {
       page += 1;
-      print("Page $page, limit $limit, query $query");
       emit(FoodDiaryLoadingMore(page));
     }
     int offset = (page - 1) * limit;
-    print("Offset $offset");
 
     try {
       FoodDiaryRepository foodDiaryRepository = FoodDiaryRepository();
+      DateTime now = DateTime.now();
       final List<FoodDiary> foodDiaries = await foodDiaryRepository
-          .readAllFoodDiaryPaginate(limit, offset, search: query);
+          .listFoodDate(now, limit, offset, search: query);
       await Future.delayed(const Duration(seconds: 1), () {
         if (foodDiaries.isEmpty) {
           emit(FoodDiaryError("No data found"));
         } else {
           bool nextData = foodDiaries.length < limit ? false : true;
-          print(foodDiaries.length);
           emit(FoodDiaryLoaded(foodDiaries: foodDiaries, nextData: nextData));
         }
       });

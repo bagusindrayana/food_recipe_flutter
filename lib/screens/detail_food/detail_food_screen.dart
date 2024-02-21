@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bordered_text/bordered_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +38,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
       quantity: 1,
       calories: widget.foodList.calories,
       dateTime: DateTime.now(),
+      mealType: widget.foodList.mealType.join(", "),
     );
     await foodDiaryRepository.create(foodDiary);
     Navigator.pop(context);
@@ -111,14 +113,22 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
               height: 16,
             ),
             Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                color: Color.fromRGBO(255, 217, 102, 1),
+                color: const Color.fromRGBO(255, 217, 102, 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
               ),
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.all(8),
@@ -127,16 +137,28 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                 children: [
                   //heading text with underline
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      "${widget.foodList.title}",
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontFamily: 'Lilita One',
-                          color: CustomColor.customred,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: BorderedText(
+                        strokeWidth: 5,
+                        strokeColor: Colors.orange,
+                        child: Text(
+                          "${widget.foodList.title}",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: 'Lilita One',
+                            color: CustomColor.customred,
+                          ),
+                        ),
+                      )
+                      // Text(
+                      //   "${widget.foodList.title}",
+                      //   style: const TextStyle(
+                      //       fontSize: 24,
+                      //       fontFamily: 'Lilita One',
+                      //       color: CustomColor.customred,
+                      //       decoration: TextDecoration.underline),
+                      // ),
+                      ),
                   //bullet list
                   Text(
                     '• Calories : ${widget.foodList.calories.toStringAsFixed(2)} Kcal',
@@ -191,14 +213,22 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                           itemBuilder: (context, index) {
                             final item = state.ingredientTexts[index];
                             return Container(
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(10),
                                   topRight: Radius.circular(10),
                                   bottomLeft: Radius.circular(10),
                                   bottomRight: Radius.circular(10),
                                 ),
-                                color: Color.fromRGBO(255, 217, 102, 1),
+                                color: const Color.fromRGBO(255, 217, 102, 1),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 0,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
                               ),
                               // padding: const EdgeInsets.all(8),
                               margin: const EdgeInsets.all(8),

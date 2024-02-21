@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:food_recipe/config/api_config.dart';
 import 'package:http/http.dart' as http;
 
@@ -51,5 +52,12 @@ class UtilityHelper {
       return new TranslateResult(
           success: false, message: e.toString(), result: word);
     }
+  }
+
+  static void showSnackBar(context, String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      duration: const Duration(seconds: 2),
+    ));
   }
 }

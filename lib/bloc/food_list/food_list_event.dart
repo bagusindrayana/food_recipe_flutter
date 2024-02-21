@@ -11,7 +11,21 @@ abstract class FoodListEvent extends Equatable {
 
 class FetchFoodLists extends FoodListEvent {
   final String query;
-  const FetchFoodLists({required this.query}) : super(query: query);
+  List<String>? mealType;
+  List<String>? diet;
+  List<String>? health;
+  List<String>? dishType;
+  double? minCalories;
+  double? maxCalories;
+  FetchFoodLists({
+    required this.query,
+    this.mealType,
+    this.diet,
+    this.health,
+    this.dishType,
+    this.minCalories,
+    this.maxCalories,
+  }) : super(query: query);
 }
 
 class LoadMoreFoodLists extends FoodListEvent {
