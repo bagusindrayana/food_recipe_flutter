@@ -38,7 +38,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
       quantity: 1,
       calories: widget.foodList.calories,
       dateTime: DateTime.now(),
-      mealType: widget.foodList.mealType.join(", "),
+      mealType: widget.foodList.mealType?.join(", "),
     );
     await foodDiaryRepository.create(foodDiary);
     Navigator.pop(context);
@@ -134,19 +134,24 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
               margin: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   //heading text with underline
                   Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: BorderedText(
-                        strokeWidth: 5,
-                        strokeColor: Colors.orange,
-                        child: Text(
-                          "${widget.foodList.title}",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontFamily: 'Lilita One',
-                            color: CustomColor.customred,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: BorderedText(
+                          strokeWidth: 5,
+                          strokeColor: Colors.orange,
+                          child: Text(
+                            "${widget.foodList.title}",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'Lilita One',
+                              color: CustomColor.customred,
+                            ),
+                            textAlign: TextAlign.start,
                           ),
                         ),
                       )
@@ -168,14 +173,14 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                     ),
                   ),
                   Text(
-                    '• Meal Type : ${widget.foodList.mealType.join(", ")}',
+                    '• Meal Type : ${widget.foodList.mealType?.join(", ")}',
                     style: TextStyle(
                       fontSize: 16,
                       fontFamily: 'Lilita One',
                     ),
                   ),
                   Text(
-                    '• Diet : ${widget.foodList.dietLabels.join(", ")}',
+                    '• Diet : ${widget.foodList.dietLabels?.join(", ")}',
                     style: TextStyle(
                       fontSize: 16,
                       fontFamily: 'Lilita One',
@@ -380,7 +385,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                         ),
                       ),
                     ]),
-                    for (var nutrient in widget.foodList.totalNutrients)
+                    for (var nutrient in widget.foodList.totalNutrients ?? [])
                       TableRow(children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),

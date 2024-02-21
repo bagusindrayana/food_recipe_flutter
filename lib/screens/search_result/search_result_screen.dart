@@ -29,10 +29,11 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   List<dynamic> datas = [];
 
   final FoodListBloc _foodListBloc = FoodListBloc();
-  final RefreshController _refreshController = RefreshController();
+  final RefreshController _refreshController =
+      RefreshController(initialLoadStatus: LoadStatus.loading);
   final ScrollController _scrollController = ScrollController();
 
-  bool _isLoadingMore = false;
+  bool _isLoadingMore = true;
   TextEditingController searchController = TextEditingController();
   Map<String, dynamic> _filters = {};
 
@@ -43,7 +44,8 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     _foodListBloc.add(FetchFoodLists(
         query: widget.query,
         mealType: _filters['mealType'],
-        dishType: _filters['dishType']));
+        dishType: _filters['dishType'],
+        diet: _filters['diet']));
     _scrollController.addListener(_onScroll);
   }
 
@@ -64,7 +66,8 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     _foodListBloc.add(FetchFoodLists(
         query: q,
         mealType: _filters['mealType'],
-        dishType: _filters['dishType']));
+        dishType: _filters['dishType'],
+        diet: _filters['diet']));
   }
 
   @override
@@ -94,65 +97,6 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(titleSpacing: 0, title: SearchNavbarWidget()
-      // Padding(
-      //   padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      //   child: TextField(
-      //     controller: searchController,
-      //     onSubmitted: (v) {
-      //       startSearch(v);
-      //     },
-      //     decoration: InputDecoration(
-      //         isDense: true,
-      //         contentPadding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-      //         border: OutlineInputBorder(
-      //           borderRadius: BorderRadius.circular(16),
-      //         ),
-      //         enabledBorder: OutlineInputBorder(
-      //           borderRadius: BorderRadius.circular(16),
-      //           borderSide:
-      //               const BorderSide(width: 3, color: CustomColor.customred),
-      //         ),
-      //         focusedBorder: OutlineInputBorder(
-      //           borderRadius: BorderRadius.circular(16),
-      //           borderSide:
-      //               const BorderSide(width: 3, color: CustomColor.customred),
-      //         ),
-      //         errorBorder: OutlineInputBorder(
-      //           borderRadius: BorderRadius.circular(16),
-      //           borderSide:
-      //               const BorderSide(width: 3, color: CustomColor.customred),
-      //         ),
-      //         filled: true,
-      //         hintStyle: TextStyle(
-      //             color: CustomColor.customred[500],
-      //             fontFamily: "Lilita One"),
-      //         hintText: "${AppLocalizations.of(context)?.searchRecipe}...",
-      //         fillColor: Colors.white70),
-      //   ),
-      // ),
-      // actions: [
-      //   IconButton(
-      //       padding: EdgeInsets.all(0),
-      //       onPressed: () {},
-      //       icon: Icon(
-      //         Icons.more_vert,
-      //         color: CustomColor.customred,
-      //         size: 40,
-      //       )),
-      //   IconButton(
-      //     padding: EdgeInsets.all(0),
-      //     icon: const Icon(
-      //       Icons.search,
-      //       color: CustomColor.customred,
-      //       size: 40,
-      //     ),
-      //     onPressed: () {
-      //       startSearch(searchController.text);
-      //     },
-      //   )
-      // ],
-      //),
       body: Column(
         children: [
           SearchNavbarWidget(
@@ -180,36 +124,58 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               } else if (state is FoodListLoaded ||
                   state is FoodListLoadingMore) {
                 _isLoadingMore = false;
+                _refreshController.refreshCompleted();
                 if (state is FoodListLoaded) {
                   datas.addAll(state.foodLists);
+                  if (datas.isEmpty) {
+                    _refreshController.loadNoData();
+                  } else {
+                    _refreshController.loadComplete();
+                  }
                 }
-                if (datas.isEmpty) {
-                  return SmartRefresher(
-                      controller: _refreshController,
-                      onRefresh: () {
-                        getData();
-                        _refreshController.refreshCompleted();
-                      },
-                      child: const Center(
-                        child: Text("Ops resep tidak ditemukan"),
-                      ));
-                }
-                var size = MediaQuery.of(context).size;
+              } else if (state is FoodListError) {
+                _refreshController.loadFailed();
+              }
 
-                /*24 is for notification bar on Android*/
-                final double itemHeight =
-                    (size.height - (kToolbarHeight * 2)) / 2;
-                final double itemWidth = size.width / 2;
+              var size = MediaQuery.of(context).size;
 
-                return SmartRefresher(
+              /*24 is for notification bar on Android*/
+              final double itemHeight =
+                  (size.height - (kToolbarHeight * 2)) / 2;
+              final double itemWidth = size.width / 2;
+
+              return SmartRefresher(
                   controller: _refreshController,
                   onRefresh: () {
                     getData();
-                    _refreshController.refreshCompleted();
                   },
+                  onLoading: () async {
+                    _foodListBloc.add(FetchFoodLists(query: widget.query));
+                  },
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  footer: CustomFooter(
+                    builder: (BuildContext context, LoadStatus? mode) {
+                      Widget body;
+                      if (mode == LoadStatus.idle) {
+                        body = Text("pull up load");
+                      } else if (mode == LoadStatus.failed) {
+                        body = Text("Load Failed!Click retry!");
+                      } else if (mode == LoadStatus.canLoading) {
+                        body = Text("release to load more");
+                      } else if (mode == LoadStatus.noMore) {
+                        body = Text("No more Data");
+                      } else {
+                        body = CircularProgressIndicator();
+                      }
+                      return Container(
+                        height: 55.0,
+                        child: Center(child: body),
+                      );
+                    },
+                  ),
                   child: ListView(
-                    physics: const ScrollPhysics(),
-                    controller: _scrollController,
+                    physics: ScrollPhysics(),
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(20),
@@ -241,38 +207,8 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                           },
                         ),
                       ),
-                      SizedBox(
-                        height: 50,
-                        child: (state is FoodListLoadingMore)
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : const SizedBox(),
-                      ),
                     ],
-                  ),
-                );
-              } else if (state is FoodListError) {
-                return SmartRefresher(
-                    controller: _refreshController,
-                    onRefresh: () {
-                      getData();
-                      _refreshController.refreshCompleted();
-                    },
-                    child: Center(
-                      child: Text(state.message),
-                    ));
-              } else {
-                return SmartRefresher(
-                    controller: _refreshController,
-                    onRefresh: () {
-                      getData();
-                      _refreshController.refreshCompleted();
-                    },
-                    child: const Center(
-                      child: Text("Ops resep tidak ditemukan"),
-                    ));
-              }
+                  ));
             },
           ))
         ],

@@ -58,6 +58,10 @@ class FoodListBloc extends Bloc<FoodListEvent, FoodListState> {
         if (event.dishType != null) {
           queryParameters.addAll({'dishType': event.dishType});
         }
+
+        if (event.diet != null) {
+          queryParameters.addAll({'diet': event.diet});
+        }
       }
 
       if (kDebugMode) {
@@ -77,9 +81,10 @@ class FoodListBloc extends Bloc<FoodListEvent, FoodListState> {
           emit(FoodListError(r.message));
         }
       });
-    } catch (e) {
+    } catch (e, t) {
       if (kDebugMode) {
         print(e);
+        print(t);
       }
       emit(FoodListError('Failed to fetch FoodLists'));
       //yield FoodListError('Failed to fetch FoodLists');

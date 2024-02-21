@@ -12,14 +12,14 @@ class FoodList extends Equatable {
   final List<Ingredient> ingredients;
   final String detailLink;
   final double calories;
-  final List<String> cuisineType;
-  final List<String> mealType;
-  final List<String> dishType;
-  final List<String> dietLabels;
-  final List<String> healthLabels;
-  final List<Nutrition> totalNutrients;
+  List<String>? cuisineType;
+  List<String>? mealType;
+  List<String>? dishType;
+  List<String>? dietLabels;
+  List<String>? healthLabels;
+  List<Nutrition>? totalNutrients;
 
-  const FoodList(
+  FoodList(
       {required this.title,
       required this.source,
       required this.sourceUrl,
@@ -29,12 +29,12 @@ class FoodList extends Equatable {
       required this.ingredients,
       required this.detailLink,
       required this.calories,
-      required this.cuisineType,
-      required this.mealType,
-      required this.dishType,
-      required this.dietLabels,
-      required this.healthLabels,
-      required this.totalNutrients});
+      this.cuisineType,
+      this.mealType,
+      this.dishType,
+      this.dietLabels,
+      this.healthLabels,
+      this.totalNutrients});
 
   @override
   List<Object?> get props => [

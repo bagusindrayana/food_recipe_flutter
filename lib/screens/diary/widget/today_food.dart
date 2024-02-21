@@ -248,9 +248,15 @@ class _TodayFoodState extends State<TodayFood> {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                  "${datas[index].label} x ${datas[index].quantity}"),
-                              Text("${totalCalories.toStringAsFixed(2)} Kcal")
+                              Expanded(
+                                child: Text(
+                                    "${datas[index].label} x ${datas[index].quantity}"),
+                              ),
+                              Expanded(
+                                  child: Text(
+                                "${totalCalories.toStringAsFixed(2)} Kcal",
+                                textAlign: TextAlign.end,
+                              ))
                             ],
                           ),
                           subtitle: Text(format.toString()),

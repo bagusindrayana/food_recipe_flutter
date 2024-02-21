@@ -38,10 +38,16 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
     curve: Curves.fastOutSlowIn,
   );
 
-  List<String> _mealType = ["Breakfast", "Lunch", "Dinner", "Snack", "Teatime"];
+  final List<String> _mealType = [
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Snack",
+    "Teatime"
+  ];
   List<String> _selectedMealType = [];
 
-  List<String> _dishType = [
+  final List<String> _dishType = [
     "Biscuit and cookies",
     "Bread",
     "Cereals",
@@ -62,6 +68,16 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
     "Sweets"
   ];
   List<String> _selectedDishType = [];
+
+  final List<String> _diet = [
+    "balanced",
+    "high-fiber",
+    "high-protein",
+    "low-carb",
+    "low-fat",
+    "low-sodium"
+  ];
+  List<String> _selectedDiet = [];
 
   Map<String, dynamic> _filter = {};
 
@@ -100,8 +116,22 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
     setState(() {});
   }
 
+  void selectDiet(String diet) {
+    if (_selectedDiet.contains(diet)) {
+      _selectedDiet.remove(diet);
+    } else {
+      _selectedDiet.add(diet);
+    }
+    generateFilter();
+    setState(() {});
+  }
+
   void generateFilter() {
-    _filter = {"mealType": _selectedMealType, "dishType": _selectedDishType};
+    _filter = {
+      "mealType": _selectedMealType,
+      "dishType": _selectedDishType,
+      "diet": _selectedDiet
+    };
     if (widget.onFilter != null) {
       widget.onFilter!(_filter);
     }
@@ -113,92 +143,133 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
       builder: (BuildContext context) {
         List<String> localSelectedMealType = _selectedMealType;
         List<String> localSelectedDishType = _selectedDishType;
+        List<String> localSelectedDiet = _selectedDiet;
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
           return Container(
             height: 200,
+            padding: EdgeInsets.only(top: 16, left: 16),
             color: Colors.amber,
             child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(6),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text('Meal Type'),
-                    SizedBox(
-                        height: 50,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          // physics: const NeverScrollableScrollPhysics(),
-                          // shrinkWrap: true,
-                          itemCount: _mealType.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final meal = _mealType[index];
-                            return Padding(
-                              padding: EdgeInsets.all(6),
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      localSelectedMealType.contains(meal)
-                                          ? CustomColor.customredAccent
-                                          : CustomColor.customyellowAccent),
-                                  padding: MaterialStateProperty.all(
-                                      const EdgeInsets.only(
-                                          right: 10, left: 10)),
-                                ),
-                                onPressed: () {
-                                  selectMealType(meal);
-                                  setState(() {
-                                    localSelectedMealType = _selectedMealType;
-                                  });
-                                },
-                                child: Text(meal,
-                                    style: TextStyle(
-                                        color: CustomColor.customred,
-                                        fontFamily: "Lilita One")),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                    'Meal Type',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        // physics: const NeverScrollableScrollPhysics(),
+                        // shrinkWrap: true,
+                        itemCount: _mealType.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final meal = _mealType[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    localSelectedMealType.contains(meal)
+                                        ? CustomColor.customredAccent
+                                        : CustomColor.customyellowAccent),
+                                padding: MaterialStateProperty.all(
+                                    const EdgeInsets.only(right: 10, left: 10)),
                               ),
-                            );
-                          },
-                        )),
-                    const Text('Dish Type'),
-                    SizedBox(
-                        height: 50,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          // physics: const NeverScrollableScrollPhysics(),
-                          // shrinkWrap: true,
-                          itemCount: _dishType.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final dish = _dishType[index];
-                            return Padding(
-                              padding: EdgeInsets.all(6),
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      localSelectedDishType.contains(dish)
-                                          ? CustomColor.customredAccent
-                                          : CustomColor.customyellowAccent),
-                                  padding: MaterialStateProperty.all(
-                                      const EdgeInsets.only(
-                                          right: 10, left: 10)),
-                                ),
-                                onPressed: () {
-                                  selectDishType(dish);
-                                  setState(() {
-                                    localSelectedDishType = _selectedDishType;
-                                  });
-                                },
-                                child: Text(dish,
-                                    style: TextStyle(
-                                        color: CustomColor.customred,
-                                        fontFamily: "Lilita One")),
+                              onPressed: () {
+                                selectMealType(meal);
+                                setState(() {
+                                  localSelectedMealType = _selectedMealType;
+                                });
+                              },
+                              child: Text(meal,
+                                  style: const TextStyle(
+                                      color: CustomColor.customred,
+                                      fontFamily: "Lilita One")),
+                            ),
+                          );
+                        },
+                      )),
+                  const Text(
+                    'Dish Type',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        // physics: const NeverScrollableScrollPhysics(),
+                        // shrinkWrap: true,
+                        itemCount: _dishType.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final dish = _dishType[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    localSelectedDishType.contains(dish)
+                                        ? CustomColor.customredAccent
+                                        : CustomColor.customyellowAccent),
+                                padding: MaterialStateProperty.all(
+                                    const EdgeInsets.only(right: 10, left: 10)),
                               ),
-                            );
-                          },
-                        )),
-                  ],
-                ),
+                              onPressed: () {
+                                selectDishType(dish);
+                                setState(() {
+                                  localSelectedDishType = _selectedDishType;
+                                });
+                              },
+                              child: Text(dish,
+                                  style: const TextStyle(
+                                      color: CustomColor.customred,
+                                      fontFamily: "Lilita One")),
+                            ),
+                          );
+                        },
+                      )),
+                  const Text(
+                    'Diet',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        // physics: const NeverScrollableScrollPhysics(),
+                        // shrinkWrap: true,
+                        itemCount: _diet.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final diet = _diet[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    localSelectedDiet.contains(diet)
+                                        ? CustomColor.customredAccent
+                                        : CustomColor.customyellowAccent),
+                                padding: MaterialStateProperty.all(
+                                    const EdgeInsets.only(right: 10, left: 10)),
+                              ),
+                              onPressed: () {
+                                selectDiet(diet);
+                                setState(() {
+                                  localSelectedDiet = _selectedDiet;
+                                });
+                              },
+                              child: Text(diet,
+                                  style: const TextStyle(
+                                      color: CustomColor.customred,
+                                      fontFamily: "Lilita One")),
+                            ),
+                          );
+                        },
+                      )),
+                ],
               ),
             ),
           );
@@ -214,7 +285,6 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
 
     Future.delayed(Duration.zero, () {
       if (widget.defaultFilters != null) {
-        print(widget.defaultFilters);
         if (widget.defaultFilters!["mealType"] != null) {
           _selectedMealType =
               List<String>.from(widget.defaultFilters!["mealType"]);
@@ -222,6 +292,10 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
         if (widget.defaultFilters!["dishType"] != null) {
           _selectedDishType =
               List<String>.from(widget.defaultFilters!["dishType"]);
+        }
+
+        if (widget.defaultFilters!["diet"] != null) {
+          _selectedDiet = List<String>.from(widget.defaultFilters!["diet"]);
         }
         setState(() {});
       }
@@ -231,7 +305,7 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: CustomColor.customyellow,
       ),
       child: Padding(
@@ -242,7 +316,7 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
               children: [
                 (widget.onBack != null)
                     ? IconButton(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         icon: const Icon(
                           Icons.arrow_back,
                           color: CustomColor.customred,
@@ -266,24 +340,24 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
                   },
                   decoration: InputDecoration(
                       isDense: true,
-                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide:
-                            BorderSide(width: 3, color: CustomColor.customred),
+                        borderSide: const BorderSide(
+                            width: 3, color: CustomColor.customred),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide:
-                            BorderSide(width: 3, color: CustomColor.customred),
+                        borderSide: const BorderSide(
+                            width: 3, color: CustomColor.customred),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide:
-                            BorderSide(width: 3, color: CustomColor.customred),
+                        borderSide: const BorderSide(
+                            width: 3, color: CustomColor.customred),
                       ),
                       filled: true,
                       hintStyle: TextStyle(
@@ -293,17 +367,17 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
                       fillColor: Colors.white70),
                 )),
                 IconButton(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     onPressed: () {
                       clickExpand();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.more_vert,
                       color: CustomColor.customred,
                       size: 40,
                     )),
                 IconButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   icon: const Icon(
                     Icons.search,
                     color: CustomColor.customred,
@@ -322,13 +396,13 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
                 sizeFactor: _animation,
                 axis: Axis.vertical,
                 axisAlignment: 1.0,
-                child: Container(
+                child: SizedBox(
                     height: 50,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(6),
+                          padding: const EdgeInsets.all(6),
                           child: ElevatedButton(
                             style: ButtonStyle(
                               padding: MaterialStateProperty.all(
@@ -337,7 +411,7 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
                             onPressed: () {
                               openFilter();
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -356,7 +430,7 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
                         ),
                         for (var meal in _mealType)
                           Padding(
-                            padding: EdgeInsets.all(6),
+                            padding: const EdgeInsets.all(6),
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
@@ -370,7 +444,7 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
                                 selectMealType(meal);
                               },
                               child: Text(meal,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: CustomColor.customred,
                                       fontFamily: "Lilita One")),
                             ),

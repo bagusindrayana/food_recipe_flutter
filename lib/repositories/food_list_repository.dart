@@ -40,6 +40,7 @@ class FoodListRepository {
     try {
       Uri uri = Uri.parse(url);
       uri = uri.replace(queryParameters: queryParameters);
+      print(uri.toString());
       var response = await httpClient.get(uri);
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(utf8.decode(response.bodyBytes));
@@ -69,11 +70,21 @@ class FoodListRepository {
                   .toList(),
               detailLink: foodList['_links']['self']['href'],
               calories: foodList['recipe']['calories'],
-              cuisineType: foodList['recipe']['cuisineType'].cast<String>(),
-              mealType: foodList['recipe']['mealType'].cast<String>(),
-              dishType: foodList['recipe']['dishType'].cast<String>(),
-              dietLabels: foodList['recipe']['dietLabels'].cast<String>(),
-              healthLabels: foodList['recipe']['healthLabels'].cast<String>(),
+              cuisineType: foodList['recipe']['cuisineType']
+                  .map<String>((e) => e.toString())
+                  .toList(),
+              mealType: foodList['recipe']['mealType']
+                  .map<String>((e) => e.toString())
+                  .toList(),
+              dishType: foodList['recipe']['dishType']
+                  .map<String>((e) => e.toString())
+                  .toList(),
+              dietLabels: foodList['recipe']['dietLabels']
+                  .map<String>((e) => e.toString())
+                  .toList(),
+              healthLabels: foodList['recipe']['healthLabels']
+                  .map<String>((e) => e.toString())
+                  .toList(),
               totalNutrients: nutrisi);
         }).toList();
         if (jsonData['_links']['next'] != null) {
@@ -86,9 +97,10 @@ class FoodListRepository {
         foodListResponse.message = 'Failed to fetch FoodLists';
         //yield FoodListError('Failed to fetch FoodLists');
       }
-    } catch (e) {
+    } catch (e, t) {
       if (kDebugMode) {
         print(e);
+        print(t);
       }
       foodListResponse.message = 'Failed to fetch FoodLists';
     }
