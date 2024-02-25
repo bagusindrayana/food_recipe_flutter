@@ -12,6 +12,7 @@ import 'package:food_recipe/models/food_diary.dart';
 import 'package:food_recipe/models/food_list.dart';
 import 'package:food_recipe/models/nutrition.dart';
 import 'package:food_recipe/repositories/food_diary_repository.dart';
+import 'package:food_recipe/utility/utility_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -41,7 +42,21 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
       mealType: widget.foodList.mealType?.join(", "),
     );
     await foodDiaryRepository.create(foodDiary);
+    UtilityHelper.showSnackBar(context, "Food added to diary");
     Navigator.pop(context);
+  }
+
+  void favoriteFood() async {
+    // FoodDiary foodDiary = FoodDiary(
+    //   url: widget.foodList.sourceUrl,
+    //   label: widget.foodList.title,
+    //   quantity: 1,
+    //   calories: widget.foodList.calories,
+    //   dateTime: DateTime.now(),
+    //   mealType: widget.foodList.mealType?.join(", "),
+    // );
+    // await foodDiaryRepository.create(foodDiary);
+    // Navigator.pop(context);
   }
 
   void translateDetail() async {
@@ -72,9 +87,17 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
         title: Text(widget.foodList.title),
         actions: [
           IconButton(
-              onPressed: eatFood,
-              icon: const Icon(Icons.add_circle_outline_rounded))
+              onPressed: favoriteFood, icon: const Icon(Icons.favorite_border))
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: CustomColor.customred,
+        onPressed: eatFood,
+        child: const Icon(
+          Icons.add_circle_outline_rounded,
+          color: CustomColor.customyellow,
+          size: 30,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

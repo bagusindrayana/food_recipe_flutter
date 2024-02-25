@@ -32,15 +32,15 @@ class FoodListRepository {
       'app_key': ApiConfig.APP_KEY,
       'type': 'public',
     };
+    Uri uri = Uri.parse(url);
 
-    if (filters != null) {
+    if (filters != null && filters.isNotEmpty) {
       queryParameters.addAll(filters);
+      uri = uri.replace(queryParameters: queryParameters);
+      print(uri.toString());
     }
 
     try {
-      Uri uri = Uri.parse(url);
-      uri = uri.replace(queryParameters: queryParameters);
-      print(uri.toString());
       var response = await httpClient.get(uri);
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(utf8.decode(response.bodyBytes));

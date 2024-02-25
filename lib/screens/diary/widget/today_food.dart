@@ -6,6 +6,7 @@ import 'package:food_recipe/bloc/food_diary/food_diary_bloc.dart';
 import 'package:food_recipe/config/custom_color.dart';
 import 'package:food_recipe/models/food_diary.dart';
 import 'package:food_recipe/repositories/food_diary_repository.dart';
+import 'package:food_recipe/screens/search_result/search_result_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -30,6 +31,62 @@ class _TodayFoodState extends State<TodayFood> {
   int currentPage = 1;
   double caloriesToday = 0;
   DateTime today = DateTime.now();
+
+  final List<String> _mealType = [
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Snack",
+    "Teatime"
+  ];
+
+  //show dialog for select meal type
+  void addMeal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Add Meal"),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: _mealType
+                .map((e) => Container(
+                      decoration: BoxDecoration(
+                        color: CustomColor.customyellow,
+                        borderRadius: BorderRadius.circular(10),
+                        //all border red
+                        border: Border.all(
+                          color: CustomColor.customred,
+                          width: 2,
+                        ),
+                      ),
+                      margin: const EdgeInsets.all(10),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      SearchResultScreen(query: "", filters: {
+                                        "mealType": [e],
+                                      }))).then((value) {
+                            setState(() {});
+                          });
+                        },
+                        child: Text(
+                          e,
+                          style: TextStyle(color: CustomColor.customred),
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ),
+        );
+      },
+    );
+  }
 
   void getData() async {
     _isLoadingMore = false;
@@ -179,7 +236,9 @@ class _TodayFoodState extends State<TodayFood> {
                         children: [
                       Text("Add Meal"),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            addMeal();
+                          },
                           icon: Icon(
                             Icons.add_circle_rounded,
                             size: 50,

@@ -67,9 +67,13 @@ class FoodListBloc extends Bloc<FoodListEvent, FoodListState> {
       if (kDebugMode) {
         print(queryParameters);
       }
+      if (nextPageUrl != null) {
+        queryParameters = {};
+      }
       String url = nextPageUrl != null
           ? nextPageUrl!
           : Uri.https('api.edamam.com', '/api/recipes/v2').toString();
+      print(url.toString());
       await foodListRepository.getFoodList(url, queryParameters).then((r) {
         if (r.success) {
           if (r.nextPageUrl != null) {

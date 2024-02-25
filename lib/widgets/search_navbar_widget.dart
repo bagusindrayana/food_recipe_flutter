@@ -269,6 +269,9 @@ class _SearchNavbarWidgetState extends State<SearchNavbarWidget>
                           );
                         },
                       )),
+                  SizedBox(
+                    height: 50,
+                  )
                 ],
               ),
             ),
