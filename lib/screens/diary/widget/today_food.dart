@@ -98,7 +98,7 @@ class _TodayFoodState extends State<TodayFood> {
       });
     });
     _foodDiaryBloc.page = 1;
-    _foodDiaryBloc.add(FetchFoodDiaries(query: searchController.text, page: 1));
+    _foodDiaryBloc.add(FetchFoodDiaries(query: searchController.text));
     _scrollController.addListener(_onScroll);
   }
 
@@ -117,7 +117,7 @@ class _TodayFoodState extends State<TodayFood> {
     _isLoadingMore = false;
     _foodDiaryBloc.page = 1;
     datas = [];
-    _foodDiaryBloc.add(FetchFoodDiaries(query: searchController.text, page: 1));
+    _foodDiaryBloc.add(FetchFoodDiaries(query: searchController.text));
   }
 
   @override
@@ -260,12 +260,7 @@ class _TodayFoodState extends State<TodayFood> {
                 state is FoodDiaryLoadingMore) {
               _isLoadingMore = false;
               if (state is FoodDiaryLoaded) {
-                _canLoadMore = state.nextData;
-                if (state.nextData) {
-                  datas.addAll(state.foodDiaries);
-                } else if (currentPage == 1) {
-                  datas = state.foodDiaries;
-                }
+                datas = state.foodDiaries;
               } else if (datas.isEmpty) {
                 return const Center(
                   child: Text("Ops data tidak ditemukan"),

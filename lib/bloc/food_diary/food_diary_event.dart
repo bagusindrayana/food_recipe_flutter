@@ -9,11 +9,11 @@ abstract class FoodDiaryEvent extends Equatable {
 
 class FetchFoodDiaries extends FoodDiaryEvent {
   final String query;
-  final int page;
-  const FetchFoodDiaries({required this.query, required this.page}) : super();
+
+  const FetchFoodDiaries({required this.query}) : super();
 
   @override
-  List<Object> get props => [query, page];
+  List<Object> get props => [query];
 }
 
 class LoadMoreFoodDiaries extends FoodDiaryEvent {

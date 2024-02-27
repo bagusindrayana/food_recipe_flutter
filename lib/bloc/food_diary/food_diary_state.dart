@@ -22,9 +22,8 @@ class FoodDiaryLoadingMore extends FoodDiaryState {
 
 class FoodDiaryLoaded extends FoodDiaryState {
   final List<FoodDiary> foodDiaries;
-  final bool nextData;
 
-  const FoodDiaryLoaded({required this.foodDiaries, required this.nextData});
+  const FoodDiaryLoaded({required this.foodDiaries});
 
   @override
   List<Object?> get props => [foodDiaries];

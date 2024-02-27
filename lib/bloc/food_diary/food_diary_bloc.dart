@@ -12,6 +12,7 @@ class FoodDiaryBloc extends Bloc<FoodDiaryEvent, FoodDiaryState> {
   final int limit;
   int page = 1;
   String query = '';
+  List<FoodDiary> datas = [];
 
   FoodDiaryBloc({required this.limit}) : super(FoodDiaryInitial()) {
     on<FetchFoodDiaries>(mapEventToState);
@@ -20,8 +21,9 @@ class FoodDiaryBloc extends Bloc<FoodDiaryEvent, FoodDiaryState> {
 
   mapEventToState(FoodDiaryEvent event, Emitter<FoodDiaryState> emit) async {
     if (event is FetchFoodDiaries) {
-      page = event.page;
+      datas = [];
       query = event.query;
+      page = 1;
       emit(FoodDiaryLoading());
     }
     if (event is LoadMoreFoodDiaries) {
@@ -36,11 +38,12 @@ class FoodDiaryBloc extends Bloc<FoodDiaryEvent, FoodDiaryState> {
       final List<FoodDiary> foodDiaries = await foodDiaryRepository
           .listFoodDate(now, limit, offset, search: query);
       await Future.delayed(const Duration(seconds: 1), () {
+        datas.addAll(foodDiaries);
         if (foodDiaries.isEmpty) {
           emit(FoodDiaryError("No data found"));
         } else {
           bool nextData = foodDiaries.length < limit ? false : true;
-          emit(FoodDiaryLoaded(foodDiaries: foodDiaries, nextData: nextData));
+          emit(FoodDiaryLoaded(foodDiaries: foodDiaries));
         }
       });
     } catch (e) {

@@ -124,7 +124,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             child: BlocBuilder<FoodFavoriteBloc, FoodFavoriteState>(
           bloc: _foodFavoriteBloc,
           builder: (context, state) {
-            print("State : " + state.toString());
             if (state is FoodFavoriteLoading && datas.isEmpty) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -132,11 +131,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             } else if (state is FoodFavoriteError) {
               _refreshController.loadFailed();
             } else if (state is FoodFavoriteLoaded) {
-              print(datas.length);
-              print("Loaded : " + state.nextData.toString());
-
               datas = state.foodFavorites;
-              print(datas.length);
               _refreshController.refreshCompleted();
               if (datas.isEmpty) {
                 _refreshController.loadNoData();
