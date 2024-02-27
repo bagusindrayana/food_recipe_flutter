@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_recipe/bloc/food_favorite/food_favorite_bloc.dart';
 import 'package:food_recipe/bloc/food_list/food_list_bloc.dart';
 import 'package:food_recipe/bloc/food_list/food_list_event.dart';
 import 'package:food_recipe/bloc/food_list/food_list_state.dart';
@@ -178,7 +179,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                     physics: ScrollPhysics(),
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(

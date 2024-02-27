@@ -9,9 +9,11 @@ import 'package:food_recipe/bloc/food_detail/food_detail_event.dart';
 import 'package:food_recipe/bloc/food_detail/food_detail_state.dart';
 import 'package:food_recipe/config/custom_color.dart';
 import 'package:food_recipe/models/food_diary.dart';
+import 'package:food_recipe/models/food_favorite.dart';
 import 'package:food_recipe/models/food_list.dart';
 import 'package:food_recipe/models/nutrition.dart';
 import 'package:food_recipe/repositories/food_diary_repository.dart';
+import 'package:food_recipe/repositories/food_favorite_repository.dart';
 import 'package:food_recipe/utility/utility_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -31,6 +33,8 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
   final RefreshController _refreshController = RefreshController();
   final ScrollController _scrollController = ScrollController();
   FoodDiaryRepository foodDiaryRepository = FoodDiaryRepository();
+  FoodFavorite? foodFavorite;
+  FoodFavoriteRepository foodFavoriteRepository = FoodFavoriteRepository();
 
   void eatFood() async {
     FoodDiary foodDiary = FoodDiary(
@@ -57,12 +61,32 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
     // );
     // await foodDiaryRepository.create(foodDiary);
     // Navigator.pop(context);
+    if (foodFavorite != null) {
+      await foodFavoriteRepository.delete(foodFavorite!.id);
+      setState(() {
+        foodFavorite = null;
+      });
+    } else {
+      FoodFavorite foodFavorite = FoodFavorite(
+        url: widget.foodList.sourceUrl,
+        label: widget.foodList.title,
+        dateTime: DateTime.now(),
+        mealType: widget.foodList.mealType?.join(", "),
+      );
+      await foodFavoriteRepository.create(foodFavorite);
+      setState(() {
+        this.foodFavorite = foodFavorite;
+      });
+    }
   }
 
   void translateDetail() async {
     _foodDetailBloc =
         FoodDetailBloc(httpClient: http.Client(), foodList: widget.foodList);
     _foodDetailBloc!.add(FetchFoodDetails());
+    foodFavorite = await foodFavoriteRepository
+        .readFoodFavoriteByUrl(widget.foodList.sourceUrl);
+    setState(() {});
   }
 
   Future<void> openWebSource() async {
@@ -87,7 +111,10 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
         title: Text(widget.foodList.title),
         actions: [
           IconButton(
-              onPressed: favoriteFood, icon: const Icon(Icons.favorite_border))
+              onPressed: favoriteFood,
+              icon: (foodFavorite != null)
+                  ? Icon(Icons.favorite)
+                  : Icon(Icons.favorite_border))
         ],
       ),
       floatingActionButton: FloatingActionButton(

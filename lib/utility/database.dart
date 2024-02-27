@@ -22,6 +22,16 @@ class FoodDiaryFields {
   ];
 }
 
+class FoodFavoriteFields {
+  static final String id = 'id';
+  static final String url = 'url';
+  static final String label = 'label';
+  static final String dateTime = 'dateTime';
+  static final String mealType = 'mealType';
+
+  static final List<String> values = [id, url, label, dateTime, mealType];
+}
+
 class MyDB {
   static final MyDB instance = MyDB._init();
 
@@ -58,11 +68,11 @@ class MyDB {
       )''');
 
     await db.execute('''CREATE TABLE food_favorite ( 
-      ${FoodDiaryFields.id} $idType, 
-      ${FoodDiaryFields.url} $textType,
-      ${FoodDiaryFields.label} $textType,
-      ${FoodDiaryFields.mealType} TEXT NULL,
-      ${FoodDiaryFields.dateTime} $textType
+      ${FoodFavoriteFields.id} $idType, 
+      ${FoodFavoriteFields.url} $textType,
+      ${FoodFavoriteFields.label} $textType,
+      ${FoodFavoriteFields.mealType} TEXT NULL,
+      ${FoodFavoriteFields.dateTime} $textType
       
       )''');
   }
