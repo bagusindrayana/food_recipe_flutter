@@ -128,6 +128,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (datas.isEmpty) {
+              return const Center(
+                child: Text("No Data"),
+              );
             } else if (state is FoodFavoriteError) {
               _refreshController.loadFailed();
             } else if (state is FoodFavoriteLoaded) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipe/config/custom_color.dart';
 import 'package:food_recipe/screens/diary/widget/report_calories.dart';
+import 'package:food_recipe/screens/diary/widget/report_date.dart';
 import 'package:food_recipe/screens/diary/widget/today_food.dart';
 
 class DiaryScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       child: ReportCalories(),
                     ),
                     Container(
-                      child: Text("User Body"),
+                      child: ReportDate(),
                     ),
                   ],
                 ),

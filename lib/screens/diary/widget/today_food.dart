@@ -73,6 +73,7 @@ class _TodayFoodState extends State<TodayFood> {
                                         "mealType": [e],
                                       }))).then((value) {
                             setState(() {});
+                            getData();
                           });
                         },
                         child: Text(

@@ -186,7 +186,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                             crossAxisCount: 2,
                             crossAxisSpacing: 20,
                             mainAxisSpacing: 20,
-                            childAspectRatio: (itemWidth / itemHeight),
+                            childAspectRatio: 1,
                           ),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),

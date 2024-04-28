@@ -17,6 +17,11 @@ class ListFoodWidget extends StatefulWidget {
 class _ListFoodWidgetState extends State<ListFoodWidget> {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 60) / 2;
+    final double itemWidth = size.width / 2;
     return InkWell(
       onTap: () {
         if (widget.onTap != null) {
@@ -48,32 +53,33 @@ class _ListFoodWidgetState extends State<ListFoodWidget> {
             Align(
               alignment: Alignment.topCenter,
               child: Hero(
-                  tag: widget.foodList.sourceUrl,
-                  child: CachedNetworkImage(
-                    imageUrl: widget.foodList.img,
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: 125,
-                      width: 125,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(67.5)),
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
+                tag: widget.foodList.sourceUrl,
+                child: CachedNetworkImage(
+                  imageUrl: widget.foodList.thumb,
+                  imageBuilder: (context, imageProvider) => Container(
+                    height: itemWidth / 1.7,
+                    width: itemWidth / 1.7,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(itemWidth / 1.5),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    placeholder: (context, url) => Container(
-                        height: 125,
-                        width: 125,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: CustomColor.customred,
-                          ),
-                        )),
-                    errorWidget: (context, url, error) => Center(
-                      child: Icon(Icons.error),
-                    ),
-                  )),
+                  ),
+                  placeholder: (context, url) => Container(
+                      height: itemWidth / 1.7,
+                      width: itemWidth / 1.7,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: CustomColor.customred,
+                        ),
+                      )),
+                  errorWidget: (context, url, error) => Center(
+                    child: Icon(Icons.error),
+                  ),
+                ),
+              ),
             ),
             Positioned(
                 bottom: 6,

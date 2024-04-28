@@ -47,6 +47,16 @@ class FoodListRepository {
         final List<dynamic> data = jsonData['hits'];
 
         final List<FoodList> FoodLists = data.map((foodList) {
+          String image = foodList['recipe']['image'];
+
+          if (foodList['recipe']['images'] != null &&
+              foodList['recipe']['images']['LARGE'] != null) {
+            image = foodList['recipe']['images']['LARGE']['url'];
+          } else if (foodList['recipe']['images'] != null &&
+              foodList['recipe']['images']['REGULER'] != null) {
+            image = foodList['recipe']['images']['REGULER']['url'];
+          }
+
           List<Nutrition> nutrisi = [];
           foodList['recipe']['totalNutrients'].forEach((k, v) => nutrisi.add(
               Nutrition(
@@ -54,6 +64,37 @@ class FoodListRepository {
                   label: v['label'],
                   quantity: v['quantity'],
                   unit: v['unit'])));
+          List<String> cT = [];
+          if (foodList['recipe']['cuisineType'] != null) {
+            cT = foodList['recipe']['cuisineType']
+                .map<String>((e) => e.toString())
+                .toList();
+          }
+          List<String> mT = [];
+          if (foodList['recipe']['mealType'] != null) {
+            mT = foodList['recipe']['mealType']
+                .map<String>((e) => e.toString())
+                .toList();
+          }
+          List<String> dT = [];
+          if (foodList['recipe']['dishType'] != null) {
+            dT = foodList['recipe']['dishType']
+                .map<String>((e) => e.toString())
+                .toList();
+          }
+          List<String> dL = [];
+          if (foodList['recipe']['dietLabels'] != null) {
+            dL = foodList['recipe']['dietLabels']
+                .map<String>((e) => e.toString())
+                .toList();
+          }
+          List<String> hL = [];
+          if (foodList['recipe']['healthLabels'] != null) {
+            hL = foodList['recipe']['healthLabels']
+                .map<String>((e) => e.toString())
+                .toList();
+          }
+
           return FoodList(
               title: foodList['recipe']['label'],
               source: foodList['recipe']['source'],
@@ -70,21 +111,11 @@ class FoodListRepository {
                   .toList(),
               detailLink: foodList['_links']['self']['href'],
               calories: foodList['recipe']['calories'],
-              cuisineType: foodList['recipe']['cuisineType']
-                  .map<String>((e) => e.toString())
-                  .toList(),
-              mealType: foodList['recipe']['mealType']
-                  .map<String>((e) => e.toString())
-                  .toList(),
-              dishType: foodList['recipe']['dishType']
-                  .map<String>((e) => e.toString())
-                  .toList(),
-              dietLabels: foodList['recipe']['dietLabels']
-                  .map<String>((e) => e.toString())
-                  .toList(),
-              healthLabels: foodList['recipe']['healthLabels']
-                  .map<String>((e) => e.toString())
-                  .toList(),
+              cuisineType: cT,
+              mealType: mT,
+              dishType: dT,
+              dietLabels: dL,
+              healthLabels: hL,
               totalNutrients: nutrisi);
         }).toList();
         if (jsonData['_links']['next'] != null) {
