@@ -106,6 +106,11 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 60) / 2;
+    final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.foodList.title),
@@ -135,7 +140,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                 child: CachedNetworkImage(
                   imageUrl: widget.foodList.img,
                   imageBuilder: (context, imageProvider) => Container(
-                    height: 250,
+                    height: itemHeight / 1.5,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -145,7 +150,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                   placeholder: (context, url) => CachedNetworkImage(
                     imageUrl: widget.foodList.thumb,
                     imageBuilder: (context, imageProvider) => Container(
-                      height: 200,
+                      height: itemHeight / 1.5,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(

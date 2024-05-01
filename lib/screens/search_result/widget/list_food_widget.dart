@@ -46,7 +46,7 @@ class _ListFoodWidgetState extends State<ListFoodWidget> {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(8),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -95,7 +95,7 @@ class _ListFoodWidgetState extends State<ListFoodWidget> {
                         fontFamily: 'Lilita One',
                         color: CustomColor.customred,
                       ),
-                      maxLines: 3,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(

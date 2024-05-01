@@ -19,7 +19,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 30,
+              height: 40,
             ),
             Container(
               height: 50,

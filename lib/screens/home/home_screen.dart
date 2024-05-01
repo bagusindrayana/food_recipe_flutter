@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: "${AppLocalizations.of(context)?.soup}",
                   image: Image.asset(
                     'assets/images/soup_vegetable.png',
-                    height: itemWidth / 1.25,
+                    height: itemWidth / 2,
                   )),
               ListCardWidget(
                   onTap: () {
@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: "${AppLocalizations.of(context)?.fruit}",
                   image: Image.asset(
                     'assets/images/fruits_basket.png',
-                    height: itemWidth / 1.25,
+                    height: itemWidth / 1.9,
                   )),
               ListCardWidget(
                   onTap: () {
@@ -193,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: "${AppLocalizations.of(context)?.drink}",
                   image: Image.asset(
                     'assets/images/juice_orange.png',
-                    height: itemWidth / 1.25,
+                    height: itemWidth / 1.9,
                   ))
             ],
           ))
