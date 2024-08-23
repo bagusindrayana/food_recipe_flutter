@@ -365,7 +365,7 @@ class _DetailFoodScreenState extends State<DetailFoodScreen> {
                   left: 20, top: 20, bottom: 20, right: 20),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: CustomColor.customred,
+                    backgroundColor: CustomColor.customred,
                     minimumSize: const Size.fromHeight(50), // NEW
                   ),
                   onPressed: openWebSource,

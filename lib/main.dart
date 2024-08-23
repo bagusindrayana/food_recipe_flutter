@@ -38,10 +38,7 @@ class MyApp extends StatelessWidget {
                 fontSize: 24,
                 fontFamily: "Lilita One"),
           ),
-          textTheme: TextTheme(
-            bodyText1: TextStyle(),
-            bodyText2: TextStyle(),
-          ).apply(
+          textTheme: TextTheme().apply(
             bodyColor: CustomColor.customred,
             displayColor: CustomColor.customred,
           )),

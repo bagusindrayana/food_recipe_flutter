@@ -196,7 +196,7 @@ class _ReportCaloriesState extends State<ReportCalories> {
       padding: const EdgeInsets.only(top: 16.0),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: CustomColor.customred,
+            backgroundColor: CustomColor.customred,
             minimumSize: const Size.fromHeight(50), // NEW
           ),
           onPressed: _calculateBMR,
