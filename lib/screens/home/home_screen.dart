@@ -7,7 +7,7 @@ import 'package:food_recipe/screens/home/widgets/list_card_widget.dart';
 import 'package:food_recipe/screens/search_result/search_result_screen.dart';
 // import 'package:food_recipe/config/custom_color.dart';
 // import 'package:simple_shadow/simple_shadow.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:food_recipe/l10n/app_localizations.dart';
 import 'package:food_recipe/utility/utility_helper.dart';
 import 'package:food_recipe/widgets/search_navbar_widget.dart';
 

@@ -18,7 +18,7 @@ import 'package:food_recipe/utility/utility_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:food_recipe/l10n/app_localizations.dart';
 
 class DetailFoodScreen extends StatefulWidget {
   final FoodList foodList;

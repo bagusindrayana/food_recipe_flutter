@@ -5,7 +5,7 @@ import 'package:food_recipe/screens/favorite/favorite_screen.dart';
 import 'package:food_recipe/screens/home/home_screen.dart';
 import 'package:food_recipe/screens/search_result/search_result_screen.dart';
 import 'package:food_recipe/config/custom_color.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:food_recipe/l10n/app_localizations.dart';
 
 class NavigationWidget extends StatefulWidget {
   const NavigationWidget({super.key});

@@ -13,7 +13,7 @@ import 'package:food_recipe/config/custom_color.dart';
 import 'package:food_recipe/widgets/search_navbar_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:food_recipe/l10n/app_localizations.dart';
 
 import 'dart:developer' as dev;
 
